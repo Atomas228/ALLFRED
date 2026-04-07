@@ -1,0 +1,130 @@
+<script>
+    let minutesWork;
+    let secondsWork;
+    let interval;
+    let iteration = 0;
+    let timeState = "stopped";
+    if (localStorage.getItem("timerAttached") === "true") {
+        let elem = document.getElementsByClassName("sticky-timer")[0];
+        elem.style.display = "block";   
+        let mainElem = document.getElementsByClassName("pomodoro-timer")[0];
+        if (mainElem) {
+            mainElem.style.display = "none";
+            let btn = document.getElementById("attach-timer")
+            btn.style.display = "none";  
+        }
+        minutesWork = localStorage.getItem("minutesWork");
+        secondsWork = localStorage.getItem("secondsWork"); 
+        stickyElem = document.getElementsByClassName("overlay-text")[0]; 
+        stickyElem.textContent = `${String(minutesWork).padStart(2, "0")}:${String(secondsWork).padStart(2, "0")}`;
+        iteration = localStorage.getItem("iteration");
+        timeState = localStorage.getItem("timeState");
+        if (timeState ==="running"){
+            interval = setInterval(showTime, 1000)
+        };
+    }
+    function resetTimer() {
+        clearInterval(interval)
+        interval = null;        
+        let elem = document.getElementsByClassName("overlay-text")[0];
+        let mainElem = document.getElementsByClassName("overlay-text")[1];
+        let stickyElem = document.getElementsByClassName("sticky-timer")[0];
+        stickyElem.style.display = "none";
+        elem.textContent = `25:00`;
+        mainElem.textContent = elem.textContent;        
+        iteration = 0;
+        minutesWork = 4;
+        secondsWork = 59;
+        timeState = "stopped";
+        timer_elem = document.getElementsByClassName("pomodoro-timer")[0];
+        timer_elem.style.display = "block";
+        btn = document.getElementById("attach-timer")
+        btn.style.display = "block";
+        localStorage.setItem("timerAttached", "false");
+    }
+    function startTimer() {
+        if (timeState === "running") {
+            clearInterval(interval);
+            interval = null;
+            timeState = "paused";    
+        }
+        else if (timeState === "paused") {
+            timeState = "running";
+            interval = setInterval(showTime, 1000)
+        }
+        else {
+            iteration++
+            localStorage.setItem("iteration", iteration);
+            let elem = document.getElementsByClassName("overlay-text")[0];
+            let mainElem = document.getElementsByClassName("overlay-text")[1];
+            if (iteration % 8 != 0 && iteration % 2 === 0) {
+                elem.textContent = `05:00`;
+                minutesWork = 4;
+                secondsWork = 59;
+            }
+            else if (iteration % 8 === 0) {
+                elem.textContent = `30:00`;
+                minutesWork = 29;
+                secondsWork = 59;
+            }
+            else {
+                elem.textContent = `25:00`;
+                minutesWork=24;
+                secondsWork=59;
+                timeState = "running"
+                interval = setInterval(showTime, 1000)
+            }
+            if (mainElem) {
+                mainElem.textContent = elem.textContent;
+            }
+        };
+        localStorage.setItem("timeState",timeState);
+        };
+    function showTime() {
+        let elem = document.getElementsByClassName("overlay-text")[0];
+        let mainElem = document.getElementsByClassName("overlay-text")[1];
+        if (minutesWork > 0 && secondsWork === 0) {
+            elem.textContent = `${String(minutesWork).padStart(2, "0")}:${String(secondsWork).padStart(2, "0")}`;
+            minutesWork--;
+            secondsWork=59;
+        }
+        else if (secondsWork > 0) {
+            elem.textContent = `${String(minutesWork).padStart(2, "0")}:${String(secondsWork).padStart(2, "0")}`;
+            secondsWork--;
+        }
+        else {
+            elem.textContent = `05:00`;
+            clearInterval(interval);
+            interval = null;
+            timeState = "stopped";
+        }
+        if (mainElem) {
+            mainElem.textContent = elem.textContent;
+        }
+        localStorage.setItem("minutesWork", minutesWork);
+        localStorage.setItem("secondsWork", secondsWork);
+        localStorage.setItem("timeState",timeState);
+    };
+    function attachTimer() {
+        let elem = document.getElementsByClassName("sticky-timer")[0];
+        elem.style.display = "block";   
+        let mainElem = document.getElementsByClassName("pomodoro-timer")[0];
+        mainElem.style.display = "none";   
+        let btn = document.getElementById("attach-timer")
+        btn.style.display = "none";
+        localStorage.setItem("timerAttached", "true");
+    }
+    document.addEventListener("DOMContentLoaded", () => {
+    let button_timer = document.querySelector("#start-timer");
+    button_timer.addEventListener("click", startTimer);
+    });
+    document.addEventListener("DOMContentLoaded", () => {
+    let button_reset = document.querySelector("#reset-timer");
+    button_reset.addEventListener("click", resetTimer);
+    });
+    document.addEventListener("DOMContentLoaded", () => {
+    let button_reset = document.querySelector("#attach-timer");
+    button_reset.addEventListener("click", attachTimer);
+    });
+
+ </script>

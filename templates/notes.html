@@ -1,0 +1,59 @@
+{% block content %}
+{% include "header.html" %}
+<div class="container text-calendar">
+<div class="row d-flex">
+   <div class="col-sm-12 col-md-7 col-lg-7 col-xxl-7 order-2 order-md-1">
+    <div class="note-form">
+      <form action="/notes/{{note_year}}/{{note_month}}/{{note_day}}" method="post">
+         <p>
+            <input type="text" id="user-title" name="user_title" placeholder=" Title"/>
+         </p>
+         <p>
+            <textarea id="note-content" name="user_content" placeholder=" Write here..." required></textarea>
+         </p>
+         <div class="d-flex form-btns">
+            <p class="button">
+               <button type="submit">Add Note</button>
+            </p>
+         </div>
+      </form>
+      {% for note in prevnotes %}
+      <div class="note-preview">
+        <div class="def_style"> {{note.title}}</div>
+            <div class="def_style2">{{note.body}}</div>
+      </div>
+        {%endfor%}
+    </div>
+   </div>
+   <div class="col-sm-12 col-md-5 col-lg-5 col-xxl-5 order-1 order-md-2">
+    <div class="cal-tab">
+      <h2 class="def_style">
+        {{ note_month }} {{note_year}}</h2>
+        <button type="button" class="btn btn-month left btn-lg px-4 gap-3" onclick=window.location.href="{{ url_for('notes', note_year=prev_year, note_month=prev_month, note_day=1) }}"><</button>
+        <button type="button" class="btn btn-month btn-lg px-4 gap-3" onclick=window.location.href="{{ url_for('notes', note_year=next_year, note_month=next_month, note_day=1) }}">></button>
+      <div class="days-header def_style2">
+         <div>Mon</div>
+         <div>Tue</div>
+         <div>Wed</div>
+         <div>Thu</div>
+         <div>Fri</div>
+         <div>Sat</div>
+         <div>Sun</div>
+         {% for week in cal %}
+         {% for day in week %}
+         {% if day == 0 %}
+         <div class="empty-day"></div>
+         {% elif day == note_day %}
+         <a class="current-day-note">{{day}}</a>
+         {% elif day in list_of_dates %}
+         <a class="noted-day" href="/notes/{{note_year}}/{{note_month}}/{{day}}">{{day}}</a>
+         {% else %}
+         <div>{{ day }}</div>
+         {% endif %}
+         {%endfor%}
+         {%endfor%}
+      </div>
+   </div>
+</div>
+{% include "footer.html" %}
+{% endblock %}

@@ -1,0 +1,169 @@
+{% include "header.html" %}
+<div class="container">
+    <div class="row d-flex">
+       <div class="col-sm-12 col-md-7 col-lg-7 col-xxl-7 fretboard">
+        <svg width="1200" height="240" id="main-string-svg">
+            <!-- 6 strings -->
+            <line x1="20" y1="30" x2="1200" y2="30" stroke="#c0b9b9" stroke-width="2"/>
+            <line x1="20" y1="60" x2="1200" y2="60" stroke="#c0b9b9" stroke-width="2"/>
+            <line x1="20" y1="90" x2="1200" y2="90" stroke="#c0b9b9" stroke-width="2"/>
+            <line x1="20" y1="120" x2="1200" y2="120" stroke="#c0b9b9" stroke-width="2"/>
+            <line x1="20" y1="150" x2="1200" y2="150" stroke="#c0b9b9" stroke-width="2"/>
+            <line x1="20" y1="180" x2="1200" y2="180" stroke="#c0b9b9" stroke-width="2"/>
+            <line x1= "20" y1="20" x2="20" y2="190" stroke="#727272" stroke-width="8"/>
+            <line x1= "100" y1="20" x2="100" y2="190" stroke="#727272" stroke-width="4"/>
+            <line x1= "180" y1="20" x2="180" y2="190" stroke="#727272" stroke-width="4"/>
+            <line x1= "260" y1="20" x2="260" y2="190" stroke="#727272" stroke-width="4"/>
+            <line x1= "340" y1="20" x2="340" y2="190" stroke="#727272" stroke-width="4"/>
+            <line x1= "420" y1="20" x2="420" y2="190" stroke="#727272" stroke-width="4"/>
+            <line x1= "500" y1="20" x2="500" y2="190" stroke="#727272" stroke-width="4"/>
+            <line x1= "580" y1="20" x2="580" y2="190" stroke="#727272" stroke-width="4"/>
+            <line x1= "660" y1="20" x2="660" y2="190" stroke="#727272" stroke-width="4"/>
+            <line x1= "740" y1="20" x2="740" y2="190" stroke="#727272" stroke-width="4"/>
+            <line x1= "820" y1="20" x2="820" y2="190" stroke="#727272" stroke-width="4"/>
+            <line x1= "900" y1="20" x2="900" y2="190" stroke="#727272" stroke-width="4"/>
+            <line x1= "980" y1="20" x2="980" y2="190" stroke="#727272" stroke-width="8"/>
+            <line x1= "1060" y1="20" x2="1060" y2="190" stroke="#727272" stroke-width="4"/>
+            <line x1= "1140" y1="20" x2="1140" y2="190" stroke="#727272" stroke-width="4"/>
+            <circle cx="220" cy="105" r="7" fill="#595964"/>
+            <circle cx="380" cy="105" r="7" fill="#595964"/>
+            <circle cx="540" cy="105" r="7" fill="#595964"/>
+            <circle cx="700" cy="105" r="7" fill="#595964"/>
+            <circle cx="940" cy="75" r="7" fill="#595964"/>
+            <circle cx="940" cy="135" r="7" fill="#595964"/>
+            <circle cx="1180" cy="105" r="7" fill="#595964"/>
+            <text x="0" y="185" fill="#c0b9b9" id="0_string">E</text>
+            <text x="0" y="155" fill="#c0b9b9" id="1_string">A</text>
+            <text x="0" y="125" fill="#c0b9b9" id="2_string">D</text>
+            <text x="0" y="95" fill="#c0b9b9" id="3_string">G</text>
+            <text x="0" y="65" fill="#c0b9b9" id="4_string">B</text>
+            <text x="0" y="35" fill="#c0b9b9" id="5_string">E</text>
+            <g class="scale-keys">
+                <circle cx="60" cy="220" r="14" fill="#595964"/>
+                <text x="55" y="225">F</text>
+            </g>
+            <g class="scale-keys">
+                <circle cx="140" cy="220" r="14" fill="#595964"/>
+                <text x="134" y="225">F♯</text>
+            </g>
+            <g class="scale-keys">
+                <circle cx="220" cy="220" r="14" fill="#595964"/>
+                <text x="215" y="225">G</text>
+            </g>
+            <g class="scale-keys">
+                <circle cx="300" cy="220" r="14" fill="#595964"/>
+                <text x="293" y="225">G♯</text>
+            </g>
+            <g class="scale-keys">
+                <circle cx="380" cy="220" r="14" fill="#595964"/>
+                <text x="375" y="225">A</text>
+            </g>
+            <g class="scale-keys">
+                <circle cx="460" cy="220" r="14" fill="#595964"/>
+                <text x="453" y="225">A♯</text>
+            </g>
+            <g class="scale-keys">
+                <circle cx="540" cy="220" r="14" fill="#595964"/>
+                <text x="535" y="225">B</text>
+            </g>
+            <g class="scale-keys">
+                <circle cx="620" cy="220" r="14" fill="#595964"/>
+                <text x="615" y="225">C</text>
+            </g>
+            <g class="scale-keys">
+                <circle cx="700" cy="220" r="14" fill="#595964"/>
+                <text x="693" y="225">C♯</text>
+            </g>
+            <g class="scale-keys">
+                <circle cx="780" cy="220" r="14" fill="#595964"/>
+                <text x="775" y="225">D</text>
+            </g>
+            <g class="scale-keys">
+                <circle cx="860" cy="220" r="14" fill="#595964"/>
+                <text x="853" y="225">D♯</text>
+            </g>
+            <g class="scale-keys">
+                <circle cx="940" cy="220" r="14" fill="#595964"/>
+                <text x="935" y="225">E</text>
+            </g>
+          </svg>
+          <button class="key-buttons">major</button>
+          <button class="key-buttons">minor</button>
+          </div>
+        <script>
+            function keyWork(key) {
+                let allChordPaths = document.querySelectorAll(".scale-keys");
+                allChordPaths.forEach(g => {
+                g.classList.remove("active")
+                })
+                key.classList.add("active");
+                localStorage.setItem("keyValue",key.querySelector("text").textContent)
+            }
+            function scaleNotesPlacement(data) {
+                let standardTuningLetters = document.querySelectorAll("#main-string-svg text");
+                standardTuningLetters.forEach((text => {
+                    text.setAttribute("fill", "#c0b9b9")
+                }))
+                let dataLen = data.length;
+                const svg = document.getElementById("main-string-svg");
+                const svgNS = "http://www.w3.org/2000/svg";
+                document.querySelectorAll(".scales-note-circle").forEach( circle => circle.remove())
+                
+                for (let i=0; i<dataLen; i++) {
+                    let stringNotes = data[i];
+                    let stringLen = stringNotes.length;
+                    let xAxisPlacement;
+                    for (let n=0; n<stringLen; n++) {
+                        if (stringNotes[n] === 0){
+                            stringString = document.getElementById(`${i}_string`)
+                            stringString.setAttribute("fill", "orange")
+                            if (n === 0 || stringNotes[n] === stringNotes[0]+12){
+                                stringString.setAttribute("fill", "#D84040")
+                            }
+                            else {
+                                stringString.setAttribute("fill", "orange")
+                            }
+                            }
+                        else {
+                            if (stringNotes[n] === 1) {
+                                xAxisPlacement = 60;
+                            }
+                            else {
+                                xAxisPlacement = 80 * (stringNotes[n]-1) + 60;
+                            }
+                            const circle = document.createElementNS(svgNS, "circle");
+                            circle.setAttribute("cx", xAxisPlacement);
+                            circle.setAttribute("cy",30*(5-i)+30);
+                            circle.setAttribute("r",10);
+                            circle.classList.add("scales-note-circle")
+                            console.log(n)
+                            if (n === 0 || stringNotes[n] === stringNotes[0]+12){
+                                circle.setAttribute("fill", "#8E1616")
+                            }
+                            else {
+                                circle.setAttribute("fill", "orange")
+                            }
+                            svg.appendChild(circle);
+                        }
+                    }
+                }
+            }
+                document.querySelectorAll("g.scale-keys").forEach(g => {
+            g.addEventListener("click", () => {
+                const mainKey = g;
+                keyWork(mainKey);
+                
+            })
+        });
+            document.querySelectorAll(".key-buttons").forEach(button => {
+            button.addEventListener("click", () => {
+                if (localStorage.getItem("keyValue")) {
+                fetch(`/api/scale/${localStorage.getItem("keyValue")}/${button.textContent}`)
+                .then(response => response.json())
+                .then(data => {
+                    scaleNotesPlacement(data)
+                });
+            }
+            })
+        });
+        </script>

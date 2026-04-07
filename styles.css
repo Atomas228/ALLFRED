@@ -1,0 +1,468 @@
+@charset "UTF-8";
+
+* {
+    box-sizing: border-box;
+    }
+
+    body {
+        background-color:#161A30;
+        color: #cbcaca;
+        max-width: 100%;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    .main-content {
+        flex-grow: 1;
+    }
+    .allfred-title {
+        font-family: "Montserrat";
+        font-size: 110;
+        font-weight: 800;
+        color: #8E1616;
+    }
+    .base-nav {
+        margin-right: 100;
+        width: 5rem;
+        height:max-content;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+
+    }
+    .nav-link {
+        background-color: #3e3d5d;
+        height: 20vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0 !important;
+        border-color: #23223d !important;
+    }
+    .nav-link:hover {
+        background-color: #54528d;
+    }
+    .nav-link svg {
+        fill: black;
+    }
+    .nav-link:hover svg {
+        fill: #ffffff;
+    }
+    #user-title {
+        font-size: 30px;
+        font-family: "Montserrat";
+        font-weight: 500;
+        border-radius: 5px;
+        border: 1px solid;
+        padding: 8px;
+        margin-bottom: 20px;
+        background-color: #31304D;
+    }
+    button {
+        margin: 20px;
+        background-color: #8E1616;
+        font-size: 30px;
+        font-family: "Montserrat";
+        font-weight: 600;
+        border-radius: 10px; 
+        border: 1px solid #D84040;
+        color:#EEEEEE;
+
+    }
+    button:hover {
+        background-color: #D84040;
+    }
+    .note-label {
+        font-size: 50px;
+        font-family: "Montserrat";
+        font-weight: 200;
+        align-items: flex-start;
+    }
+    #note-content {
+        width: 500px;
+        min-height: 100px;
+        border-radius: 5px;
+        padding: 10px;
+        background-color: #31304D;
+        max-height: 300px;
+    }
+    .the-form {
+        margin: 40px;
+    }
+    .def_style {
+        font-family: "Montserrat";
+        font-weight: 300;
+        font-size: 40px;
+    }
+    .def_style2 {
+        font-family: "Montserrat";
+        font-weight: 300;
+        font-size: 20px;
+        text-align: center;
+    }
+    .parent {
+        display: flex;
+        flex-direction: row;
+        gap: 40px;
+    }
+    .days-header {
+        display: grid;
+        grid-template-columns: repeat(7,1fr);
+    }
+    .container {
+        margin-top: 50px;
+    }
+    .note-preview {
+        background-color:#8E1616;
+        margin-top: 70px;
+        margin-bottom: 70px;
+        border-radius: 5px;
+        padding: 20px;
+        width: 500px;
+        min-height: 150;
+    }
+    .note-preview .def_style{
+    color: #F0ECE5;
+    font-size: 40px;
+    font-weight: 500;
+    }
+    .note-preview .def_style2{
+    color: #F0ECE5;
+    font-size: 20px;
+    font-weight: 300;
+    text-align: left;
+    }
+    .cal-tab {
+        background-color: #8E1616;
+        padding-top: 50px;
+        padding-bottom: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+        border-radius: 5px;
+        width: 600px;
+        position: relative;
+        left: -30px;
+    }
+    .noted-day {
+        color: #6a67b6;
+        font-weight: 500;
+        text-decoration:underline;
+        
+    }
+    .current-day-note {
+        background-color: #D84040;
+        border-radius: 6px;
+        color: #161A30;
+        text-decoration:none;
+    }
+    .btn-month {
+        font-size: 50px;
+        border-color: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0px;
+        width: auto;
+        height: auto;
+    }
+    .btn-month.left {
+        top: 0;
+        right: 100;
+    }
+    @media (max-width: 1630px) {
+    .btn-month {
+        padding: 2px 2px !important;
+        font-size: 30px;
+        top: -10;
+    }
+    .btn-month.left {
+        right: 80;
+        top: -10;
+    }
+
+    .cal-tab h2 {
+        font-size: 30px;
+    }
+    .days-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    width: 100%;
+    font-size: clamp(20px, 1.2vw, 0.9rem);
+    }
+
+    .cal-tab {
+    width: 100%;
+    padding: 20px;
+    }
+    }
+    @media (max-width: 1400px) {
+    .btn-month {
+        font-size: 20px;
+        top: -10;
+    }
+    .btn-month.left {
+        right: 50;
+        top: -10;
+    }
+
+    .cal-tab h2 {
+        font-size: 20px;
+    }
+    .days-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    width: 100%;
+    font-size: clamp(0.6rem, 1.2vw, 0.9rem);
+    }
+
+    .cal-tab {
+    width: 100%;
+    padding: 0.5rem;
+    padding-top: 15px;
+    }
+    }
+    @media (max-width: 1135px) {
+        #user-title {
+        font-size: 20px;
+        font-family: "Montserrat";
+        font-weight: 500;
+        border-radius: 2px;
+        border: 1px solid;
+        padding: 5px;
+        margin-bottom: 15px;
+        background-color: #31304D;
+    }
+    button {
+        margin: 10px;
+        background-color: #8E1616;
+        font-size: 20px;
+        font-family: "Montserrat";
+        font-weight: 600;
+        border-radius: 8px; 
+        border: 1px solid #D84040;
+        color:#EEEEEE;
+
+    }
+    button:hover {
+        background-color: #D84040;
+    }
+    .note-label {
+        font-size: 20px;
+        font-family: "Montserrat";
+        font-weight: 200;
+        align-items: flex-start;
+    }
+    #note-content {
+        width: 350px;
+        min-height: 100px;
+        border-radius: 5px;
+        padding: 10px;
+        background-color: #31304D;
+        max-height: 300px;
+    }
+    .the-form {
+        margin: 40px;
+    }
+    .def_style {
+        font-family: "Montserrat";
+        font-weight: 300;
+        font-size: 40px;
+    }
+    .def_style2 {
+        font-family: "Montserrat";
+        font-weight: 300;
+        font-size: 20px;
+        text-align: center;
+    }
+    .base-nav {
+        margin-right: 50;
+        width: 4rem;
+        height:max-content;
+    }
+    .cal-tab h2 {
+        font-size: 20px;
+    }
+    .days-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    width: 100%;
+    font-size: clamp(0.6rem, 1.2vw, 0.9rem);
+    }
+
+    .cal-tab {
+    width: 100%;
+    padding: 0.5rem;
+    padding-top: 15px;
+    }
+    .note-preview {
+        margin-top: 50px;
+        margin-bottom: 50px;
+        border-radius: 5px;
+        padding: 10px;
+        width: 400px;
+        min-height: 100;
+    }
+    .note-preview .def_style{
+    font-size: 25px;
+    font-weight: 500;
+    }
+    .note-preview .def_style2{
+    color: #F0ECE5;
+    font-size: 15px;
+    font-weight: 300;
+    text-align: left;
+    }
+    }
+    @media (max-width: 767px) {
+    .btn-month {
+        font-size: 35px;
+    }
+
+    .cal-tab h2 {
+        font-size: 35px;
+    }
+    .days-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    width: 100%;
+    font-size: clamp(20px, 1vw, 0.5rem);
+    }
+
+    .cal-tab {
+    width: 100%;
+    padding: 10px;
+    padding-top: 15px;
+    margin-bottom: 20px;
+    }
+    }
+    .pomodoro-timer {
+        position: relative;
+        width: 300px;
+        height: auto;
+        align-items: center;
+    }
+    .sticky-timer {
+        align-items: center;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 150px;
+        height: auto;
+        font-size: 30px;
+        display: none;
+    }
+    .sticky-timer .overlay-text {
+        font-size: 30px;
+    }
+    .pomodoro-timer:hover, .sticky-timer:hover {
+        opacity: 0.8;
+        transform: scale(1.05);
+        transition: transform 0.2s ease;
+    }
+      
+      .pomodoro-timer svg {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .overlay-text {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 55px;
+        color: white;
+        text-align: center;
+        font-weight: 200;
+      }
+      .timer-title {
+        font-size: 55px;
+        font-weight: 100;
+        text-align: center;
+      }
+      .link-row a{
+        font-size: 25px;
+        text-decoration: none;
+        color:#D84040;
+      }
+      .link-row {
+        text-align:start;
+      }
+      footer {
+        background-color: #1b0421;
+      }
+      .container {
+        background-color: transparent;
+        width: 100%;
+      }
+      .key-slice {
+        cursor: pointer;
+    }
+    
+    .key-slice path {
+        fill: #3e3d5d;
+        transform-box: fill-box;
+        transform-origin: center;
+        transition: transform 0.2s ease, fill 0.2s ease;
+    }
+    
+    .key-slice:hover path {
+        fill: #54528d;
+        transform: scale(1.05);
+    }
+    .key-slice.active path {
+        fill: #8E1616;
+    }
+    .key-slice.active:hover path {
+        fill: #D84040;
+    }
+
+    .key-slice:hover text {
+        opacity: 0.8;
+    }
+    .circle5 {
+        width: 600px;
+        height: auto;
+    }
+    .modes-col {
+        display: flex;
+        align-items: center;
+    }
+    .modes-order div {
+        font-size: 30px;
+        text-align:justify;
+    }
+    .chord-moods {
+        width: 800px;
+        height: auto;
+    }
+    .key-slice text {
+        fill: #D9D9D9;
+        font-weight: 100;
+    }
+    .vibe-chords-names {
+        fill: #31304D;
+        font-size: 30px;
+    }
+    .vibe-chords-names.main-chord {
+        font-size: 50px;
+    }
+    .fretboard {
+        position: relative;
+        align-items: center;
+        }
+    .scale-keys circle{
+        fill: #54528d;
+    }
+    .scale-keys text{
+        fill: #D9D9D9;
+    }
+    .scale-keys:hover circle{
+        fill: #6a67b6;
+    }
+    .scale-keys.active circle {
+        fill: #8E1616;
+    }
+    .scale-keys.active:hover circle {
+        fill: #D84040;
+    }

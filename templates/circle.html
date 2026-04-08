@@ -119,7 +119,7 @@
       </div>
    </div>
    <div class="row">
-      <div class="col">
+      <div class="col-8">
          <svg width="1093" height="923" viewBox="0 0 1093 923" fill="none" xmlns="http://www.w3.org/2000/svg" class="chord-moods">
             <g clip-path="url(#clip0_8_215)">
                <path d="M677.167 281.5C677.167 151.943 619.337 46.9167 548 46.9167C476.663 46.9167 418.833 151.943 418.833 281.5C418.833 411.057 476.663 516.083 548 516.083C619.337 516.083 677.167 411.057 677.167 281.5Z" stroke="#54528D" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
@@ -265,95 +265,27 @@
             </defs>
          </svg>
       </div>
+      <div class="col-4">
+         <svg width="240" height="450" class="chord-finger-placement">
+            <!-- 6 strings -->
+            <line x1="20" y1="60" x2="20" y2="410" stroke="#c0b9b9" stroke-width="2"/>
+            <line x1="60" y1="60" x2="60" y2="410" stroke="#c0b9b9" stroke-width="2"/>
+            <line x1="100" y1="60" x2="100" y2="410" stroke="#c0b9b9" stroke-width="2"/>
+            <line x1="140" y1="60" x2="140" y2="410" stroke="#c0b9b9" stroke-width="2"/>
+            <line x1="180" y1="60" x2="180" y2="410" stroke="#c0b9b9" stroke-width="2"/>
+            <line x1="220" y1="60" x2="220" y2="410" stroke="#c0b9b9" stroke-width="2"/>
+            <line x1= "10" y1="60" x2="230" y2="60" stroke="#727272" stroke-width="8"/>
+            <line x1= "15" y1="130" x2="225" y2="130" stroke="#727272" stroke-width="4"/>
+            <line x1= "15" y1="200" x2="225" y2="200" stroke="#727272" stroke-width="4"/>
+            <line x1= "15" y1="270" x2="225" y2="270" stroke="#727272" stroke-width="4"/>
+            <line x1= "15" y1="340" x2="225" y2="340" stroke="#727272" stroke-width="4"/>
+            <text x="15" y="430" fill="#c0b9b9" id="0_string">E</text>
+            <text x="55" y="430" fill="#c0b9b9" id="1_string">A</text>
+            <text x="95" y="430" fill="#c0b9b9" id="2_string">D</text>
+            <text x="135" y="430" fill="#c0b9b9" id="3_string">G</text>
+            <text x="175" y="430" fill="#c0b9b9" id="4_string">B</text>
+            <text x="215" y="430" fill="#c0b9b9" id="5_string">E</text>
+         </svg>
+      </div>
    </div>
 </div>
-<script>
-    const majorChords = ["C","D♭","D","E♭","E","F","G♭","G","A♭","A","B♭","B"];
-    const minorChords = ["Cm","C♯m","Dm","E♭m","Em","Fm","F♯m","Gm","G♯m","Am","B♭m","Bm"];
-    let mainChord;
-    let allChords = [];
-    let addedTextPart = false;
-    let chord2;
-    let chord3;
-    let chord4;
-    let chord5;
-    let chord6;
-    let chord7;
-    function showChords(chord) {
-        let mainChordIndex = majorChords.indexOf(chord);
-        if (mainChordIndex === -1) {
-            mainChordIndex = minorChords.indexOf(chord);
-            chord2 = minorChords[(mainChordIndex+2)%minorChords.length];
-            chord3 = majorChords[(mainChordIndex+3)%minorChords.length];
-            chord4 = minorChords[(mainChordIndex+5)%minorChords.length];
-            chord5 = minorChords[(mainChordIndex+7)%minorChords.length];
-            chord6 = majorChords[(mainChordIndex+8)%minorChords.length];
-            chord7 = majorChords[(mainChordIndex+10)%minorChords.length];
-        }
-        else {
-            chord4 = majorChords[(mainChordIndex+5)%majorChords.length];
-            chord5 = majorChords[(mainChordIndex+7)%majorChords.length];
-            let chord6Index = (mainChordIndex+9)%majorChords.length;
-            chord6 = minorChords[chord6Index];
-            chord2 = minorChords[(chord6Index+5)%majorChords.length];
-            chord3 = minorChords[(chord6Index+7)%majorChords.length];
-            chord7 = minorChords[(chord6Index+14)%majorChords.length];
-        }
-        let chordsElem = document.getElementsByClassName("chords-line")[0];
-        let chordsElemEnd = document.getElementsByClassName("chords-line")[1];
-        document.getElementsByClassName("chords-line")[0];
-        allChords = [chord,chord2,chord3,chord4,chord5,chord6,chord7];
-        chordsElem.textContent = `${chord}, ${chord2}, ${chord3},`;
-        chordsElemEnd.textContent = `${chord4}, ${chord5}, ${chord6}, ${chord7}`;
-        divs = document.querySelectorAll(".modes-order div span");
-        firstChord = document.querySelector(".vibe-chords-names.main-chord");
-        firstChord.textContent = chord;
-        secondChord = document.querySelectorAll(".vibe-chords-names.second");
-        secondChord.forEach(text => {
-            text.textContent = chord2;
-        });
-        thirdChord = document.querySelectorAll(".vibe-chords-names.third");
-        thirdChord.forEach(text => {
-            text.textContent = chord3;
-        });
-        fourthChord = document.querySelectorAll(".vibe-chords-names.fourth");
-        fourthChord.forEach(text => {
-            text.textContent = chord4;
-        });
-        fifthChord = document.querySelectorAll(".vibe-chords-names.fifth");
-        fifthChord.forEach(text => {
-            text.textContent = chord5;
-        });
-        sixthChord = document.querySelectorAll(".vibe-chords-names.sixth");
-        sixthChord.forEach(text => {
-            text.textContent = chord6;
-        });
-        seventhChord = document.querySelectorAll(".vibe-chords-names.seventh");
-        seventhChord.forEach(text => {
-            text.textContent = chord7;
-        });
-        allChordPaths = document.querySelectorAll(".key-slice");
-        allChordPaths.forEach(path => {
-            path.classList.remove("active")
-        })
-        len = divs.length;
-        for (let i=0; i<len; i++) {
-            divs[i].textContent = ` - ${allChords[i]}`;
-        }
-        allChordsLen = allChords.length
-        for (let i=0; i<allChordsLen; i++) {
-            textChord = [...document.querySelectorAll("text")].find(d => d.textContent.trim() === allChords[i]);
-            parentG = textChord.closest("g")
-            parentG.classList.add("active")
-        }
-
-    }
-    document.querySelectorAll("g.key-slice").forEach(g => {
-            g.addEventListener("click", () => {
-                const mainChord = g.querySelector("text").textContent.trim();
-                showChords(mainChord)
-            })
-        });
-
-</script>
-{% include "footer.html" %}

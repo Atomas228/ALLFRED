@@ -53,9 +53,48 @@ def main():
 def circle():
     return render_template("circle.html")
 
+@app.route('/creating-composition', methods = ['GET', 'POST'])
+def creating_composition():
+    return render_template("composition.html")
+
 @app.route('/theory-n-practice', methods = ['GET', 'POST'])
 def theory_n_practice():
     return render_template("theory_n_practice.html")
+
+@app.route('/api/circle-of-fifths/<chord>', methods = ['GET', 'POST'])
+def get_chord_placement(chord):
+    chord_finger_placement = {
+        "A♭": [4, 6, 6, 5, 4, 4],
+        "A": [None, 0, 2, 2, 2, 0],
+        "Am": [None, 0, 2, 2, 1, 0],
+        "B": [6, 5, 4, 4, 4, None],
+        "B♭m": [None, 1, 3, 3, 2, 1],
+        "Bm": [None, 2, 4, 4, 3, 2],
+        "B♭": [None, 1, 3, 3, 3, 1],
+        "C": [None, 3, 2, 0, 1, 0],
+        "Cm": [None, 3, None, 0, 4, 3],
+        "C♯m": [9, 7, 6, 6, None, None],
+        "D": [None, None, 0, 2, 3, 2],
+        "Dm": [None, None, 0, 2, 3, 1],
+        "D♭": [None, 4, 3, None, None, 4],
+        "E": [None, 7, 6, 4, 5, 4],
+        "Em": [0, 2, 2, 0, 0, 0],
+        "E♭": [None, None, 1, 3, 4, 3],
+        "E♭m": [None, None, 1, 3, 4, 2],
+        "F": [1, 3, 3, 2, 1, 1],
+        "Fm": [None, None, 3, 5, 6, 4],
+        "F♯m": [None, None, 4, 6, 7, 5],
+        "G": [3, 2, 0, 0, 0, 3],
+        "Gm": [3, 1, 0, 0, 3, 3],
+        "G♭": [2, 1, None, None, 2, 2],
+        "G♯m": [None, None, 6, 8, 0, 7]
+    }
+    for chord_value in chord_finger_placement:
+        if chord_value == chord:
+            finger_placement = chord_finger_placement.get(chord_value)
+
+    if finger_placement:
+        return jsonify(finger_placement)
 
 @app.route('/api/scale/<key>/<scale_type>')
 def get_scale(key, scale_type):

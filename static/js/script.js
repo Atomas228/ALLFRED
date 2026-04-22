@@ -15,9 +15,9 @@ let secondsWork;
 let interval;
 let iteration = 0;
 let timeState = "stopped";
-let chordFingerPlacement = [
-    {name: "C", frets: [null, 3, 2, 0, 1, 0]}
-]
+let lowestPlacement;
+const svgNS = "http://www.w3.org/2000/svg";
+
 if (localStorage.getItem("timerAttached") === "true") {
     let elem = document.getElementsByClassName("sticky-timer")[0];
     elem.style.display = "block";   
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
 let button_reset = document.querySelector("#attach-timer");
 button_reset.addEventListener("click", attachTimer);
 });
-function showChords(chord) {
+function showChords(chord, placementData) {
     let mainChordIndex = majorChords.indexOf(chord);
     if (mainChordIndex === -1) {
         mainChordIndex = minorChords.indexOf(chord);
@@ -207,11 +207,84 @@ function showChords(chord) {
         parentG = textChord.closest("g")
         parentG.classList.add("active")
     }
+    if (placementData) {
+        document.querySelectorAll(".selected-chord-display").forEach(el => el.remove());
+        let fingerPlacementSvg = document.querySelector(".chord-finger-placement");
+        let chordFingerLen = placementData.length;
+        let smallestNum = Math.min(...placementData.filter(f => f > 0));
+        let biggestNum = Math.max(...placementData.filter(f => f > 0));
+        if (smallestNum < 4 && biggestNum < 6) {
+            lowestPlacement = smallestNum * 70 +25
+        }
+        else {
+            lowestPlacement = 100
+        }
+        document.querySelector(".first-fret").setAttribute("stroke-width", 10);
+        const textSmallestNum = document.createElementNS(svgNS, "text");
+        textSmallestNum.setAttribute("x", 20);
+        textSmallestNum.setAttribute("y", lowestPlacement);
+        textSmallestNum.textContent = String(smallestNum);
+        textSmallestNum.setAttribute("fill", "#c0b9b9");
+        textSmallestNum.setAttribute("font-size", 25);
+        textSmallestNum.setAttribute("text-anchor", "middle");
+        textSmallestNum.setAttribute("dominant-baseline", "middle");
+        textSmallestNum.classList.add("selected-chord-display");
+        fingerPlacementSvg.appendChild(textSmallestNum);
+        for (let i=0; i<chordFingerLen; i++) {
+            let yFinger = placementData[i]
+            if (yFinger === null) {
+                const line1 = document.createElementNS(svgNS, "line");
+                line1.setAttribute("x1", ((i*40))+50);
+                line1.setAttribute("y1", 10);
+                line1.setAttribute("x2", ((i*40))+70);
+                line1.setAttribute("y2", 30);
+                const line2 = document.createElementNS(svgNS, "line");
+                line2.setAttribute("x1", ((i*40))+70);
+                line2.setAttribute("y1", 10);
+                line2.setAttribute("x2", ((i*40))+50);
+                line2.setAttribute("y2", 30);
+                [line1,line2].forEach(line => {
+                    line.setAttribute("stroke", "#c0b9b9");
+                    line.setAttribute("stroke-width", 3);
+                    line.classList.add("selected-chord-display");
+                    fingerPlacementSvg.appendChild(line)
+                });
+            }
+            else if (yFinger=== 0) {
+                const oShape = document.createElementNS(svgNS, "circle");
+                oShape.setAttribute("cx", i*40 + 60);
+                oShape.setAttribute("cy", 20);
+                oShape.setAttribute("r", 10);
+                oShape.setAttribute("fill", "none");
+                oShape.setAttribute("stroke", "#c0b9b9");
+                oShape.setAttribute("stroke-width", 3);
+                oShape.classList.add("selected-chord-display");
+                fingerPlacementSvg.appendChild(oShape)
+            }
+            else {
+                if (biggestNum > 5){
+                    yFinger = yFinger-(smallestNum-1);
+                    document.querySelector(".first-fret").setAttribute("stroke-width", 4);
+                }
+                const fingerPlace = document.createElementNS(svgNS, "circle");
+                fingerPlace.setAttribute("cx", i*40 + 60);
+                fingerPlace.setAttribute("cy", yFinger*70 +25);
+                fingerPlace.setAttribute("r", 12);
+                fingerPlace.setAttribute("fill", "orange");
+                fingerPlace.classList.add("selected-chord-display");
+                fingerPlacementSvg.appendChild(fingerPlace);
+            }
+        }
+    }
 }
 document.querySelectorAll("g.key-slice").forEach(g => {
         g.addEventListener("click", () => {
             const mainChord = g.querySelector("text").textContent.trim();
-            showChords(mainChord)
+            fetch(`api/circle-of-fifths/${mainChord}`)
+            .then(response => response.json())
+            .then(placementData => {
+                showChords(mainChord, placementData)
+    });
         })
     });
 
@@ -230,9 +303,7 @@ function scaleNotesPlacement(data) {
         text.setAttribute("fill", "#c0b9b9")
     }))
     let dataLen = data.length;
-    const keyColor = ["orange","blue","red","yellow","white","green","purple"]
     const svg = document.getElementById("main-string-svg");
-    const svgNS = "http://www.w3.org/2000/svg";
     document.querySelectorAll(".scales-note-circle").forEach( circle => circle.remove())
     
     for (let i=0; i<dataLen; i++) {
@@ -262,7 +333,6 @@ function scaleNotesPlacement(data) {
                 circle.setAttribute("cy",30*(5-i)+30);
                 circle.setAttribute("r",10);
                 circle.classList.add("scales-note-circle")
-                console.log(n)
                 if (n === 0 || stringNotes[n] === stringNotes[0]+12){
                     circle.setAttribute("fill", "#8E1616")
                 }
@@ -280,6 +350,7 @@ g.addEventListener("click", () => {
     keyWork(mainKey);
 })
 });
+
 document.querySelectorAll(".key-buttons").forEach(button => {
 button.addEventListener("click", () => {
     if (localStorage.getItem("keyValue")) {

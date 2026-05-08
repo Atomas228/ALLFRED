@@ -1,0 +1,93 @@
+{% include "header.html" %}
+<div class="container">
+    <div class="editor-wrap">
+        <div class="editor-header">
+            <div class="editor-header-left">
+                <h1>Tab Editor</h1>
+                <input class="song-title-input" type="text" placeholder="Song title..." id="song-title" required>
+                <div class="editor-meta col-8">
+                    <div class="meta-field">
+                      <span class="meta-label">Key</span>
+                      <input class="meta-input" type="text" placeholder="Am" id="song-key"/>
+                    </div>
+                    <div class="meta-field">
+                      <span class="meta-label">Tempo</span>
+                      <input class="meta-input" type="number" placeholder="120" id="song-tempo"/>
+                    </div>
+                    <div class="meta-field">
+                      <span class="meta-label">Time</span>
+                      <input class="meta-input" type="text" placeholder="4/4" id="song-time"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="editor-actions col-4">
+                    <button class="btn btns btn-ghost" id="btn-clear">Clear</button>
+                    <button class="btn btns btn-ghost" id="btn-export">Export PDF</button>
+                    <button class="btn btns btn-primary" onclick="saveComposition()" id="btn-save">Save</button>
+                  </div>
+        </div>
+        {% set strings = ['e', 'B', 'G', 'D', 'A', 'E'] %}
+        {% set cols = 36 %}
+        <div class="composition-container">
+        <div class="tab-container">
+            <div class="tab-grid" id="tab-grid">
+                <div class="chord-row" id="chord-row">
+                    <div class="chord-label">chords</div>
+                    {% for c in range(cols//2) %}
+                    <div class="chord-cell" data-col="{{ c }}">
+                        <input class="chord-input" type="text" maxlength="4"/>
+                    </div>
+                    {% endfor %}
+                </div>
+        
+                {% for string in strings %}
+                <div class="string-row" id="row-{{ loop.index0 }}">
+                    <div class="string-label">{{ string }}</div>
+                    {% for c in range(cols) %}
+                    <div class="note-cell" data-row="{{ loop.index0 }}" data-col="{{ c }}">
+                        <span class="note-display" type="text" inputmode="numeric" maxlength="2">—</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+        
+                <div class="beat-row">
+                    <div class="beat-label"></div>
+                    {% for c in range(cols) %}
+                    <div class="beat-num">{{ c // 4 + 1 if c % 4 == 0 else '' }}</div>
+                    {% endfor %}
+                </div>    
+            </div>
+        </div>
+        {% set cols = 40 %}
+        <div class="tab-container">
+            <div class="tab-grid" id="tab-grid">
+                <div class="chord-row" id="chord-row">
+                    {% for c in range(cols//2) %}
+                    <div class="chord-cell" data-col="{{ c }}">
+                        <input class="chord-input" type="text" maxlength="4"/>
+                    </div>
+                    {% endfor %}
+                </div>
+        
+                {% for string in strings %}
+                <div class="string-row" id="row-{{ loop.index0 }}">
+                    {% for c in range(cols) %}
+                    <div class="note-cell" data-row="{{ loop.index0 }}" data-col="{{ c }}">
+                        <span class="note-display">—</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+        
+                <div class="beat-row1">
+                    <div class="beat-label"></div>
+                    {% for c in range(cols) %}
+                    <div class="beat-num">{{ c // 4 + 10 if c % 4 == 0 else '' }}</div>
+                    {% endfor %}
+                </div>    
+            </div>
+        </div>
+        </div>
+        <button class="add-line btn btns btn-ghost" onclick="addLine()">Add line</button>
+        

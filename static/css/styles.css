@@ -470,3 +470,164 @@
     .scale-keys.active:hover circle {
         fill: #D84040;
     }
+    .editor-header-left h1 {
+        font-family: "Montserrat";
+        font-size: 4rem; 
+        font-weight: 800;
+        color: #8E1616;
+    }
+    .editor-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border);
+      }
+    #song-title {
+        font-size: 2rem; 
+        font-weight: 400;
+        background-color: #31304D;
+        border-width: 0;
+        border-radius: 0.3rem;
+        padding: 0.3rem;
+        color: #EEEEEE;
+    }
+
+    .editor-meta {
+        display: flex;
+        gap: 1.5rem;
+        margin-top: 0.75rem;
+      }
+      .meta-field {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .meta-label {
+        font-size: 1rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .meta-input {
+        background-color: #31304D;
+        border: 0;
+        border-radius: 0.2rem;
+        color: #EEEEEE;
+        font-family: 'Courier Prime', monospace;
+        font-size: 0.9rem;
+        padding: 0.2rem 0.5rem;
+        width: 5rem;
+      }
+      .editor-actions {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+      }
+      .btns {
+        font-size: 1rem;
+        font-weight: 300;
+        letter-spacing: 0.06em;
+        padding: 0.5rem 1rem;
+        border-radius: 0.3rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: 0.1rem solid transparent;
+        position: relative;
+        top: 1.3rem;
+        right: 2rem;
+      }
+      .btn-primary {
+        color: #EEEEEE;
+        background-color: #8E1616;
+        border-width: 0;
+      }
+      .btn-primary:hover { 
+        background: #D84040; 
+    }
+    .btn-ghost {
+        background: none;
+        color: var(--text-dim);
+        border-color: var(--border-bright);
+      }
+     
+      .btn-ghost:hover {
+        border-color: #D84040;
+        color: #D84040;
+      }
+      .chord-row,
+.string-row,
+.beat-row,
+.beat-row1 {
+    display: flex;
+    flex-direction: row;
+}
+.chord-input {
+    width: 3.8rem;
+    flex-shrink: 0;
+    background-color:#31304D;
+    border-width: 0;
+    color: #cbcaca;
+
+}
+.note-cell {
+    width: 1.9rem;
+    flex-shrink: 0;
+    display: flex;
+  justify-content: center;
+  align-items: center; 
+  transition: 0.2s;
+}
+.string-label {
+    width: 4rem;
+    padding-right: 3.5rem;
+    font-weight: 170;
+    font-size: 1.2rem;
+}
+.beat-num {
+    width: 1.9rem;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    font-size: 1.2rem;
+}
+.beat-row {
+    padding-left: 4rem;
+}
+.add-line {
+    margin-bottom: 5rem;
+}
+.chord-label {
+    padding-right: 1rem;
+}
+.note-cell:hover {
+    background-color: #54528d;
+}
+.tab-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    width: 77rem;
+    padding-bottom: 2rem;
+  }
+  @media (max-width: 1410px) {
+    .tab-container {
+        width: 70rem;
+    }
+  }
+  @media (max-width: 1300px) {
+    .tab-container {
+        width: 60rem;
+    }
+  }
+  @media (max-width: 1150px) {
+    .tab-container {
+        width: 50rem;
+    }
+  }
+  @media (max-width: 990px) {
+    .tab-container {
+        width: 40rem;
+    }
+  }

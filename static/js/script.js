@@ -1,6 +1,7 @@
 
 const majorChords = ["C","D♭","D","E♭","E","F","G♭","G","A♭","A","B♭","B"];
 const minorChords = ["Cm","C♯m","Dm","E♭m","Em","Fm","F♯m","Gm","G♯m","Am","B♭m","Bm"];
+const stringsArray = ["e", "B", "G", "D", "A", "E"];
 let mainChord;
 let allChords = [];
 let addedTextPart = false;
@@ -16,6 +17,7 @@ let interval;
 let iteration = 0;
 let timeState = "stopped";
 let lowestPlacement;
+let beatNum = 10;
 const svgNS = "http://www.w3.org/2000/svg";
 
 if (localStorage.getItem("timerAttached") === "true") {
@@ -55,6 +57,59 @@ function resetTimer() {
     btn = document.getElementById("attach-timer")
     btn.style.display = "block";
     localStorage.setItem("timerAttached", "false");
+}
+function saveComposition() {
+    let everyStringNotes = [];
+    let allStringNotes = [];
+    let allCellChords = [];
+    songTitle = document.getElementById("song-title").value;
+    songKey = document.getElementById("song-key").value;
+    songTempo = document.getElementById("song-tempo").value;
+    songTime = document.getElementById("song-time").value;
+    chordsInCells = document.querySelectorAll(".chord-input").forEach(input => {
+        allCellChords.push(input.value);
+    })
+    everyStringNotes.push(allCellChords);
+    for (let rowNr=0; rowNr<6; rowNr++) {
+        contentRow = document.querySelectorAll(`#row-${rowNr}`);
+        console.log(contentRow);
+        for (let n=0; n<contentRow.length; n++) {
+            allNotes = contentRow[n].querySelectorAll(".note-display")
+            for (let i=0; i<allNotes.length; i++){
+                console.log(allNotes[i].textContent);
+                allStringNotes.push(allNotes[i].textContent);
+            }
+        }
+        everyStringNotes.push(allStringNotes);
+        allStringNotes = [];
+    }
+    
+    fetch("/save-tab", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            title: songTitle,
+            key: songKey,
+            tempo: songTempo,
+            time_signature: songTime,
+            tab_data: everyStringNotes
+        })
+    })
+}
+function addLine() {
+    const original = document.querySelectorAll(".tab-container")[1]
+    const copy = original.cloneNode(true);
+    beatsRow = copy.querySelector(".beat-row1")
+    beatsRow.querySelectorAll(".beat-num").forEach(div => {
+        if (div.textContent.trim() !== "") {
+            div.textContent = parseInt(div.textContent) + beatNum
+        }
+    })
+    beatNum = beatNum + 10;
+    document.querySelector(".composition-container").appendChild(copy);
+    document.querySelectorAll(".note-display").forEach(editingLines);
 }
 function startTimer() {
     if (timeState === "running") {
@@ -128,6 +183,34 @@ function attachTimer() {
     btn.style.display = "none";
     localStorage.setItem("timerAttached", "true");
 }
+function editingLines(div) {
+        div.addEventListener("click", () => {
+            if (div.textContent === "—") {
+            div.textContent = "";
+            }
+            div.contentEditable = true;
+            div.focus();
+        });
+        div.addEventListener("blur", () => {
+            if (div.textContent.trim() === "") {
+                div.textContent = "—";
+            }
+            div.contentEditable = false;
+        });
+        div.addEventListener("input", () => {
+            let value = div.textContent;
+            value = value.replace(/[^0-9xX]/g, "");
+            value = value.slice(0, 2);
+            div.textContent = value;
+            const range = document.createRange();
+            const sel = window.getSelection();
+            range.selectNodeContents(div);
+            range.collapse(false);
+            sel.removeAllRanges();
+            sel.addRange(range);
+        });
+}
+document.querySelectorAll(".note-display").forEach(editingLines);
 document.addEventListener("DOMContentLoaded", () => {
 let button_timer = document.querySelector("#start-timer");
 button_timer.addEventListener("click", startTimer);

@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm
 from flask_ckeditor import CKEditor
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import Integer, String, Text
+from sqlalchemy import Integer, String, Text, JSON
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 from flask_ckeditor import CKEditorField
@@ -41,6 +41,17 @@ class CreateNoteForm(FlaskForm):
     body = CKEditorField("Note content", validators=[DataRequired()])
     submit = SubmitField("Add a note")
 
+class Composition(db.Model):
+    __tablename__ = "compositions"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    title: Mapped[str] = mapped_column(String(100), unique=False, nullable=False)
+    key: Mapped[str] = mapped_column(String, unique=False, nullable=True)
+    tempo: Mapped[str] = mapped_column(Integer, unique=False, nullable=True)
+    time_signature: Mapped[str] = mapped_column(String, unique=False, nullable=True)
+    tab_data: Mapped[str] = mapped_column(JSON, nullable=False)
+    date = db.Column(db.DateTime, default = datetime.now)
+
+
 with app.app_context():
     db.create_all()
 
@@ -60,6 +71,23 @@ def creating_composition():
 @app.route('/theory-n-practice', methods = ['GET', 'POST'])
 def theory_n_practice():
     return render_template("theory_n_practice.html")
+
+@app.route('/save-tab', methods = ['POST'])
+def save_tab():
+    data = request.get_json()
+    composition = Composition(
+        title = data["title"],
+        key = data["key"],
+        tempo = data["tempo"],
+        time_signature = data["time_signature"],
+        tab_data = data["tab_data"]
+    )
+    print(composition.tab_data)
+    db.session.add(composition)
+    db.session.commit()
+    return jsonify({
+    "message": "saved"
+})
 
 @app.route('/api/circle-of-fifths/<chord>', methods = ['GET', 'POST'])
 def get_chord_placement(chord):

@@ -6,6 +6,23 @@
 <div class="row">
    <div class="col-sm-12 col-md-7 col-lg-8 order-2 order-md-1">
       <div class="tabs-pages">
+         <div class="section-title">Recent Tabs</div>
+         <div class="all-songs">
+            <div class="composition-info song-col-name">
+            <div>Title</div>
+            <div>Tempo</div>
+            <div>Key</div>
+            <div></div>
+         </div>
+            {% for c in compositions %}
+            <div class="composition-info songs">
+               <div>{{c.title}}</div>
+               <div>{{c.tempo}}</div>
+               <div>{{c.key}}</div>
+               <div class="edit-button">edit</div>
+            </div>
+            {%endfor%}
+         </div>
       </div>
    </div>
    <div class="col-sm-12 col-md-5 col-lg-4 order-1 order-md-2 timer-content">

@@ -58,7 +58,8 @@ with app.app_context():
 
 @app.route('/', methods = ['GET', 'POST'])
 def main():
-    return render_template("index.html")
+    compositions = Composition.query.all()
+    return render_template("index.html", compositions=compositions)
 
 @app.route('/circle-of-fifths', methods = ['GET', 'POST'])
 def circle():

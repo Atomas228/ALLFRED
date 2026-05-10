@@ -69,6 +69,34 @@
         color:#EEEEEE;
 
     }
+    .all-songs {
+        width: 80%;
+    }
+    .composition-info {
+        font-family: "Montserrat";
+        font-weight: 500;
+        font-size: 1.4rem;
+        border-bottom: 0.15rem solid #3e3d5d;
+        display: grid;
+        grid-template-columns: 1fr 120px 120px 40px;
+        align-items: center;
+    }
+    .composition-info.songs:hover {
+        background-color: #23223d;
+    }
+    .song-col-name {
+        color: #bebec0;
+        border-bottom: 0.4rem solid #3e3d5d;
+        font-size: 1.6rem;
+    }
+    .edit-button {
+        color: #54528d;
+        font-size: 1rem;
+        text-decoration: underline;
+    }
+    .edit-button:hover{
+        color: #6a67b6;
+    }
     button:hover {
         background-color: #D84040;
     }
@@ -344,6 +372,12 @@
         width: 300px;
         height: auto;
         align-items: center;
+    }
+    .section-title {
+        font-size: 3.438rem;
+        font-weight: 100;
+        text-align:left;
+        margin-bottom: 1rem;
     }
     .sticky-timer {
         align-items: center;

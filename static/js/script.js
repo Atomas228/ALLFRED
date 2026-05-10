@@ -109,7 +109,7 @@ function addLine() {
     })
     beatNum = beatNum + 10;
     document.querySelector(".composition-container").appendChild(copy);
-    document.querySelectorAll(".note-display").forEach(editingLines);
+    document.querySelectorAll(".note-cell").forEach(editingLines);
 }
 function startTimer() {
     if (timeState === "running") {
@@ -185,7 +185,7 @@ function attachTimer() {
 }
 function editingLines(div) {
         div.addEventListener("click", () => {
-            if (div.textContent === "—") {
+            if (div.querySelector(".note-display").textContent === "—") {
             div.textContent = "";
             }
             div.contentEditable = true;
@@ -210,7 +210,7 @@ function editingLines(div) {
             sel.addRange(range);
         });
 }
-document.querySelectorAll(".note-display").forEach(editingLines);
+document.querySelectorAll(".note-cell").forEach(editingLines);
 document.addEventListener("DOMContentLoaded", () => {
 let button_timer = document.querySelector("#start-timer");
 button_timer.addEventListener("click", startTimer);

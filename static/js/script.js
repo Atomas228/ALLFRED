@@ -109,7 +109,7 @@ function addLine() {
     })
     beatNum = beatNum + 10;
     document.querySelector(".composition-container").appendChild(copy);
-    document.querySelectorAll(".note-cell").forEach(editingLines);
+    document.querySelectorAll(".note-display").forEach(editingLines);
 }
 function startTimer() {
     if (timeState === "running") {
@@ -184,33 +184,33 @@ function attachTimer() {
     localStorage.setItem("timerAttached", "true");
 }
 function editingLines(div) {
-        div.addEventListener("click", () => {
-            if (div.querySelector(".note-display").textContent === "—") {
-            div.textContent = "";
-            }
-            div.contentEditable = true;
-            div.focus();
-        });
-        div.addEventListener("blur", () => {
-            if (div.textContent.trim() === "") {
-                div.textContent = "—";
-            }
-            div.contentEditable = false;
-        });
-        div.addEventListener("input", () => {
-            let value = div.textContent;
-            value = value.replace(/[^0-9xX]/g, "");
-            value = value.slice(0, 2);
-            div.textContent = value;
-            const range = document.createRange();
-            const sel = window.getSelection();
-            range.selectNodeContents(div);
-            range.collapse(false);
-            sel.removeAllRanges();
-            sel.addRange(range);
-        });
+    div.addEventListener("click", () => {
+        if (div.textContent === "—") {
+        div.textContent = "";
+        }
+        div.contentEditable = true;
+        div.focus();
+    });
+    div.addEventListener("blur", () => {
+        if (div.textContent.trim() === "") {
+            div.textContent = "—";
+        }
+        div.contentEditable = false;
+    });
+    div.addEventListener("input", () => {
+        let value = div.textContent;
+        value = value.replace(/[^0-9xX]/g, "");
+        value = value.slice(0, 2);
+        div.textContent = value;
+        const range = document.createRange();
+        const sel = window.getSelection();
+        range.selectNodeContents(div);
+        range.collapse(false);
+        sel.removeAllRanges();
+        sel.addRange(range);
+    });
 }
-document.querySelectorAll(".note-cell").forEach(editingLines);
+document.querySelectorAll(".note-display").forEach(editingLines);
 document.addEventListener("DOMContentLoaded", () => {
 let button_timer = document.querySelector("#start-timer");
 button_timer.addEventListener("click", startTimer);
@@ -432,6 +432,53 @@ g.addEventListener("click", () => {
     const mainKey = g;
     keyWork(mainKey);
 })
+});
+document.getElementById('btn-export').addEventListener('click', () => {
+    let everyStringNotes = [];
+    let allStringNotes = [];
+    let allCellChords = [];
+    songTitle = document.getElementById("song-title").value;
+    songKey = document.getElementById("song-key").value;
+    songTempo = document.getElementById("song-tempo").value;
+    songTime = document.getElementById("song-time").value;
+    chordsInCells = document.querySelectorAll(".chord-input").forEach(input => {
+        allCellChords.push(input.value);
+    })
+    everyStringNotes.push(allCellChords);
+    for (let rowNr=0; rowNr<6; rowNr++) {
+        contentRow = document.querySelectorAll(`#row-${rowNr}`);
+        console.log(contentRow);
+        for (let n=0; n<contentRow.length; n++) {
+            allNotes = contentRow[n].querySelectorAll(".note-display")
+            for (let i=0; i<allNotes.length; i++){
+                allStringNotes.push(allNotes[i].textContent);
+            }
+        }
+        everyStringNotes.push(allStringNotes);
+        allStringNotes = [];
+    }
+    console.log(everyStringNotes);
+    
+    fetch('/export-pdf', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            title: songTitle,
+            key: songKey,
+            tempo: songTempo,
+            time_signature: songTime,
+            tab_data: everyStringNotes
+        })
+    })
+    .then(response => response.blob())
+    .then(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${songTitle || 'tab'}.pdf`;
+        a.click();
+        URL.revokeObjectURL(url);
+    });
 });
 
 document.querySelectorAll(".key-buttons").forEach(button => {

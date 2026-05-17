@@ -10,6 +10,9 @@ from flask_ckeditor import CKEditorField
 from flask_bootstrap import Bootstrap5
 import calendar
 from flask import jsonify
+from fpdf import FPDF
+from flask import send_file
+import io
 from datetime import datetime
 import os
 
@@ -22,13 +25,10 @@ app.secret_key = "secret"
 basedir = os.path.abspath(os.path.dirname(__file__))
 Bootstrap5(app)
 ckeditor = CKEditor(app)
-#place where db is stored
 app.config['SQLALCHEMY_DATABASE_URI'] = \
     'sqlite:///' + os.path.join(basedir, 'instance', 'data.db')
-# initialize the app with the extension
 db.init_app(app)
 
-#text class where long texts are stored
 class Notes(db.Model):
     __tablename__ = "notes"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -55,7 +55,6 @@ class Composition(db.Model):
 with app.app_context():
     db.create_all()
 
-
 @app.route('/', methods = ['GET', 'POST'])
 def main():
     compositions = Composition.query.all()
@@ -68,6 +67,58 @@ def circle():
 @app.route('/creating-composition', methods = ['GET', 'POST'])
 def creating_composition():
     return render_template("composition.html")
+
+@app.route('/export-pdf', methods=['POST'])
+def export_pdf():
+    data= request.get_json()
+    tab_data = data['tab_data']
+    title = data.get('title', 'Untitled')
+    key = data.get('key', 'Uncertain')
+    tempo = data.get('tempo', 'Uncertain')
+    time = data.get('time_signature', 'Uncertain')
+
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font('Helvetica', 'B', 20)
+    pdf.cell(0, 10, title, ln=True)
+    pdf.set_font('Helvetica', 'B', 11)
+    pdf.cell(0, 10, key, ln=False)
+    pdf.set_x(20)
+    pdf.cell(0, 10, f'{tempo} bpm', ln=False)
+    pdf.set_x(40)
+    pdf.cell(0, 10, time, ln=False)
+
+    strings = ['e', 'B', 'G', 'D', 'A', 'E']
+
+    for i, string_name in enumerate(strings):
+        row_data = tab_data[i+1]
+        pdf.set_x(10)
+        pdf.set_y(35+i*4)
+        pdf.set_font('Courier', '', 11)
+        pdf.cell(4, 3, string_name, align='C')
+        for j, note in enumerate(row_data):
+            if j == 38:
+                pdf.set_xy(14, i*4+75)
+            elif j>38 and j % 38 == 0:
+                pdf.set_xy(14, i*4+35+(j/38)*40)
+            display=note if note != '—' else '-'
+            pdf.set_font('Courier', '', 9)
+            pdf.cell(5,3, display[:2], align='C')
+        pdf.ln()
+    
+    chords_data = tab_data[0]
+    pdf.set_xy(14, 31)
+    for n, chord in enumerate(chords_data):
+        if n > 0 and n % 20 == 0:
+            pdf.set_xy(14, 31+40*(n/20))
+        pdf.cell(10, 3, chord, align='C')
+
+
+    pdf_bytes = pdf.output(dest='S').encode('latin-1')
+    buffer = io.BytesIO(pdf_bytes)
+    buffer.seek(0)
+    return send_file(buffer, mimetype='application/pdf',
+                     as_attachment=True, download_name=f'{title}.pdf')
 
 @app.route('/theory-n-practice', methods = ['GET', 'POST'])
 def theory_n_practice():
